@@ -51,6 +51,10 @@ def handle_message(event):
                               preview_image_url="https://d4xawcq9u1fih.cloudfront.net/data8.png")),
             (TextSendMessage(text="（東京都政策企画局サイト様のデータ）"))
         ))
+    if event.reply_token == "00000000000000000000000000000000":
+        return
+    if event.reply_token == "ffffffffffffffffffffffffffffffff":
+        return
         
     
     else:
