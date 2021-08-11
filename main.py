@@ -57,7 +57,7 @@ def handle_message(event):
         ))
     elif send_message == "ワクチン":
         weburl = 'https://www.kantei.go.jp/jp/headline/kansensho/vaccine.html'
-        response = requests.get(url=weburl,verify=False)
+        response = requests.get(url=weburl)
         html = response.content
 
         soup = BeautifulSoup(html, "html.parser")
