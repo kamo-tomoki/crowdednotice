@@ -74,7 +74,7 @@ def handle_message(event):
             event.reply_token,
             ((TextSendMessage(text="1回以上接種した人の割合："+ data1String)),
              (TextSendMessage(text="2回接種完了した人の割合："+ data2String)),
-             (TextSendMessage(text="このデータは"+ dateString[10:19]+"のもの\n首相官邸サイト様より")))
+             (TextSendMessage(text="このデータは"+ dateString[10:19]+"のものです。\n首相官邸サイト様より")))
         )
         
         

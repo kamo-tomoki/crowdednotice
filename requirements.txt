@@ -1,5 +1,4 @@
 Flask
 line-bot-sdk
 requests
-bs4
 beautifulsoup4
