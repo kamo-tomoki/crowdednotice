@@ -56,8 +56,15 @@ def handle_message(event):
             (TextSendMessage(text="（東京都政策企画局サイト様のデータ）"))
         ))
     elif send_message == "ワクチン":
+        requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS += 'HIGH:!DH:!aNULL'
+        try:
+           requests.packages.urllib3.contrib.pyopenssl.DEFAULT_SSL_CIPHER_LIST += 'HIGH:!DH:!aNULL'
+        except AttributeError:
+        # no pyopenssl support used / needed / available
+           pass
+
         weburl = 'https://www.kantei.go.jp/jp/headline/kansensho/vaccine.html'
-        response = requests.get(url=weburl)
+        response = requests.get(url=weburl, verify=False)
         html = response.content
 
         soup = BeautifulSoup(html, "html.parser")
