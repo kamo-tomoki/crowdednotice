@@ -44,6 +44,20 @@ def callback():
 
     return 'OK'
 
+weburl = 'https://www.kantei.go.jp/jp/headline/kansensho/vaccine.html'
+response = requests.get(url=weburl)
+html = response.content
+
+soup = BeautifulSoup(html, "html.parser")
+        
+data1 = soup.find_all('td')[6]
+data1String = data1.get_text()
+        
+data2 = soup.find_all("td")[11]
+data2String = data2.get_text()
+
+date = soup.find_all("p")[2]
+dateString = date.get_text()
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -56,20 +70,7 @@ def handle_message(event):
             (TextSendMessage(text="（東京都政策企画局サイト様のデータ）"))
         ))
     elif send_message == "ワクチン":
-        weburl = 'https://www.kantei.go.jp/jp/headline/kansensho/vaccine.html'
-        response = requests.get(url=weburl)
-        html = response.content
-
-        soup = BeautifulSoup(html, "html.parser")
         
-        data1 = soup.find_all('td')[6]
-        data1String = data1.get_text()
-        
-        data2 = soup.find_all("td")[11]
-        data2String = data2.get_text()
-
-        date = soup.find_all("p")[2]
-        dateString = date.get_text()
         line_bot_api.reply_message(
             event.reply_token,
             ((TextSendMessage(text="1回以上接種した人の割合："+ data1String)),
