@@ -10,7 +10,11 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 import os
+
 from linebot.models.send_messages import ImageSendMessage
+
+import requests
+from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
@@ -51,16 +55,34 @@ def handle_message(event):
                               preview_image_url="https://d4xawcq9u1fih.cloudfront.net/data8.png")),
             (TextSendMessage(text="（東京都政策企画局サイト様のデータ）"))
         ))
-    if event.reply_token == "00000000000000000000000000000000":
-        return
-    if event.reply_token == "ffffffffffffffffffffffffffffffff":
-        return
+    elif send_message == "ワクチン":
+        url = 'https://www.kantei.go.jp/jp/headline/kansensho/vaccine.html'
+        response = requests.get(url=url)
+        html = response.content
+
+        soup = BeautifulSoup(html, "html.parser")
+        
+        data1 = soup.find_all('td')[6]
+        data1String = data1.get_text()
+        
+        data2 = soup.find_all("td")[11]
+        data2String = data2.get_text()
+
+        date = soup.find_all("p")[2]
+        dateString = date.get_text()
+        line_bot_api.reply_message(
+            event.reply_token,
+            ((TextSendMessage(text="1回以上接種した人の割合："+ data1String)),
+             (TextSendMessage(text="2回接種完了した人の割合："+ data2String)),
+             (TextSendMessage(text="このデータは"+ dateString[10:19]+"のもの\n首相官邸サイト様より")))
+        )
+        
         
     
     else:
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="正しく「現在」と入力してください。")
+            TextSendMessage(text="正しく入力してください。")
         )
 
 
