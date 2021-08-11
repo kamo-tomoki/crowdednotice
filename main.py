@@ -56,8 +56,8 @@ def handle_message(event):
             (TextSendMessage(text="（東京都政策企画局サイト様のデータ）"))
         ))
     elif send_message == "ワクチン":
-        url = 'https://www.kantei.go.jp/jp/headline/kansensho/vaccine.html'
-        response = requests.get(url=url)
+        weburl = 'https://www.kantei.go.jp/jp/headline/kansensho/vaccine.html'
+        response = requests.get(url=weburl)
         html = response.content
 
         soup = BeautifulSoup(html, "html.parser")
@@ -72,9 +72,7 @@ def handle_message(event):
         dateString = date.get_text()
         line_bot_api.reply_message(
             event.reply_token,
-            ((TextSendMessage(text="1回以上接種した人の割合："+ data1String)),
-             (TextSendMessage(text="2回接種完了した人の割合："+ data2String)),
-             (TextSendMessage(text="このデータは"+ dateString[10:19]+"のものです。\n首相官邸サイト様より")))
+            ((TextSendMessage(text="1回以上接種した人の割合："+ data1String)))
         )
         
         
